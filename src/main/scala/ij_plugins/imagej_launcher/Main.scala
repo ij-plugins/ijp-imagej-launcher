@@ -23,11 +23,14 @@ object Main {
   case class Config(
     logLevel: Logger.Level = Logger.Level.Error,
     dryRun: Boolean = false,
-    javaHome: Option[File] = None
+    javaHome: Option[File] = None,
+    ijDir: Option[File] = None
   )
 
   def main(args: Array[String]): Unit =
     setupLogger(Logger.Level.All)
+
+    printInfo()
 
     val ret: ErrorCode =
       parseCommandLine(args) match
@@ -46,6 +49,11 @@ object Main {
 
 //    System.exit(ret.value)
   end main
+
+  private def printInfo(): Unit =
+    logger.debug("os.arch:    " + System.getProperty("os.arch"))
+    logger.debug("os.name:    " + System.getProperty("os.name"))
+//    logger.debug("os.version: " + System.getProperty("os.version"))
 
   private def parseCommandLine(args: Array[String]): Option[Config] =
     val builder = OParser.builder[Config]
@@ -79,7 +87,12 @@ object Main {
         //
         opt[Unit]("print-java-home")
           .action((_, c) => c.copy(dryRun = true))
-          .text("print ImageJ's idea of JAVA_HOME")
+          .text("print ImageJ's idea of JAVA_HOME"),
+        //
+        opt[File]("ij-dir")
+          .valueName("<path>")
+          .action((path, c) => c.copy(ijDir = Option(path)))
+          .text("set the ImageJ directory to <path> (used to find jars/, plugins/ and macros/)")
       )
     }
 

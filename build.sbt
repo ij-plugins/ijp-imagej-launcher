@@ -6,14 +6,14 @@ enablePlugins(ScalaNativePlugin)
 logLevel := Level.Info
 
 libraryDependencies ++= Seq(
-  "com.github.scopt" %%% "scopt" % "4.1.0"
+  "com.github.scopt" %%% "scopt"  % "4.1.0",
+  "com.lihaoyi"      %%% "os-lib" % "0.9.1"
 )
 
-Compile/run/mainClass := Some("ij_plugins.imagej_launcher.Main")
+Compile / run / mainClass := Some("ij_plugins.imagej_launcher.Main")
 
 // import to add Scala Native options
-import scala.scalanative.build._
-
+import scala.scalanative.build.*
 
 // defaults set with common options shown
 nativeConfig ~= { c =>
