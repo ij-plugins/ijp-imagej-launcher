@@ -10,7 +10,7 @@ import scopt.{DefaultOEffectSetup, OParser}
 import java.io.File
 
 object Main:
-  private val logger  = new Logger()
+  private var logger  = new Logger()
   private val AppName = "ijp-imagej-launcher"
   //  private val AppVersion = s"${Version.version} [${Version.buildTimeStr}]"
   private val AppVersion     = s"0.1.0"
@@ -71,7 +71,7 @@ object Main:
     OParser.parse(parser1, args, Config())
   end parseCommandLine
 
-  private def setupLogger(logLevel: Logger.Level): Unit = logger.level = logLevel
+  private def setupLogger(logLevel: Logger.Level): Unit = logger = new Logger(logLevel)
 
   private def runLauncher(config: Config): Unit = new Launcher(logger).run(config)
 

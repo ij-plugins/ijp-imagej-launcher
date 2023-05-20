@@ -7,17 +7,13 @@ package ij_plugins.imagej_launcher
 
 import ij_plugins.imagej_launcher.Logger.Level
 
-class Logger:
-
-  var level: Level = Level.Info
-
+class Logger(val level: Level = Level.Info):
   def debug(msg: String): Unit = pprint(Level.Debug, msg)
   def info(msg: String): Unit  = pprint(Level.Info, msg)
+  def error(msg: String): Unit = pprint(Level.Error, msg)
 
   private def pprint(l: Level, message: String): Unit =
-    if l.level <= level.level then println(s"${l.name}: $message")
-
-  def error(msg: String): Unit = pprint(Level.Error, msg)
+    if l.level <= level.level then println(f"${l.name}%-5s: $message")
 
 object Logger:
   enum Level(val level: Int, val name: String):
