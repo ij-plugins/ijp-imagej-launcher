@@ -5,12 +5,11 @@
 
 package ij_plugins.imagej_launcher
 
-import ij_plugins.imagej_launcher.ErrorCode
 import scopt.{DefaultOEffectSetup, OParser}
 
 import java.io.File
 
-object Main {
+object Main:
   private val logger  = new Logger()
   private val AppName = "ijp-imagej-launcher"
   //  private val AppVersion = s"${Version.version} [${Version.buildTimeStr}]"
@@ -20,44 +19,18 @@ object Main {
     """Native launcher for ImageJ2
       |""".stripMargin
 
-  case class Config(
-    logLevel: Logger.Level = Logger.Level.Error,
-    dryRun: Boolean = false,
-    javaHome: Option[File] = None,
-    ijDir: Option[File] = None
-  )
-
   def main(args: Array[String]): Unit =
     setupLogger(Logger.Level.All)
 
-    printInfo()
-
-    val ret: ErrorCode =
-      parseCommandLine(args) match
-        case Some(config) =>
-          setupLogger(config.logLevel)
-          runLauncher(config)
-        case None =>
-          // arguments are bad
-          ErrorCode.InvalidCommandLineArguments
-
-    val msg = s"${ret.message} [exit code: ${ret.value}]"
-    if ret == ErrorCode.OK then
-      logger.info(msg)
-    else
-      logger.error(msg)
-
-//    System.exit(ret.value)
-  end main
-
-  private def printInfo(): Unit =
-    logger.debug("os.arch:    " + System.getProperty("os.arch"))
-    logger.debug("os.name:    " + System.getProperty("os.name"))
-//    logger.debug("os.version: " + System.getProperty("os.version"))
+    parseCommandLine(args) match
+      case Some(config) =>
+        setupLogger(config.logLevel)
+        runLauncher(config)
+      case None =>
 
   private def parseCommandLine(args: Array[String]): Option[Config] =
     val builder = OParser.builder[Config]
-    val parser1 = {
+    val parser1 =
       import builder.*
       OParser.sequence(
         programName(AppName),
@@ -94,12 +67,18 @@ object Main {
           .action((path, c) => c.copy(ijDir = Option(path)))
           .text("set the ImageJ directory to <path> (used to find jars/, plugins/ and macros/)")
       )
-    }
 
     OParser.parse(parser1, args, Config())
   end parseCommandLine
 
   private def setupLogger(logLevel: Logger.Level): Unit = logger.level = logLevel
 
-  private def runLauncher(config: Config): ErrorCode = new Launcher(logger).run(config)
-}
+  private def runLauncher(config: Config): Unit = new Launcher(logger).run(config)
+
+  case class Config(
+    logLevel: Logger.Level = Logger.Level.Error,
+    dryRun: Boolean = false,
+    javaHome: Option[File] = None,
+    ijDir: Option[File] = None
+  )
+end Main

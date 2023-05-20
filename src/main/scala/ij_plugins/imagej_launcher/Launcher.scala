@@ -9,37 +9,34 @@ import ij_plugins.imagej_launcher.Launcher.javaExeFileName
 import ij_plugins.imagej_launcher.Main.Config
 import os.Path
 
-import java.io.{BufferedReader, File, InputStreamReader}
+import java.io.File
 import java.lang.ProcessBuilder.Redirect
-import java.util.Locale
 
-class Launcher(logger: Logger) {
+class Launcher(logger: Logger):
 
   private val jarsDirName = "jars"
 
-  def run(config: Config): ErrorCode = {
+  def run(config: Config): Unit =
     createCommandLine(config) match
       case Right(commandLine) =>
         if config.dryRun then
           logger.debug("dry-run")
           println(commandLine.mkString(" "))
-          ErrorCode.OK
         else
           launch(commandLine)
       case Left(errorMessage) =>
         logger.error(errorMessage)
-        ErrorCode.GeneralError
-  }
 
   private def createCommandLine(config: Config): Either[String, Seq[String]] =
-    for {
+    for
       ijDir       <- locateIJDir(config)
       launcherJar <- findImageJLauncherJar(ijDir)
       javaExe     <- locateJavaExecutable(config, ijDir)
       systemType  <- determineSystemType()
-    } yield {
-      buildCommandLine(ijDir, javaExe, launcherJar, systemType)
-    }
+    yield
+      val maxMemoryMB = determineMaxMemoryMB()
+      logger.info(s"Max memory to use: ${maxMemoryMB}MB")
+      buildCommandLine(ijDir, javaExe, launcherJar, systemType, maxMemoryMB)
 
   private def locateIJDir(config: Config): Either[String, File] =
     logger.debug("Looking for ImageJ directory")
@@ -54,22 +51,32 @@ class Launcher(logger: Logger) {
 
     dir.listFiles().find(f => f.getName == jarsDirName && f.isDirectory) match
       case Some(_) =>
-        logger.debug(s"  ImageJ directory set to: $dir")
+        logger.info(s"  ImageJ directory set to: '$dir'")
         Right(dir)
       case None =>
         Left(s"Cannot locate ImageJ directory. No subdirectory '$jarsDirName' in '$dir''")
 
-  private def launch(command: Seq[String]): ErrorCode =
-    logger.debug("launchImageJ ...")
-
-    logger.debug(s"Executing command:\n" + command.mkString(" "))
-
-    val builder = new ProcessBuilder(command*)
-    builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-    builder.redirectError(ProcessBuilder.Redirect.INHERIT)
-
-    val process = builder.start()
-    ErrorCode.OK
+  private def findImageJLauncherJar(ijDir: File): Either[String, File] =
+    logger.debug("Looking for 'imagej-launcher*.jar'")
+    val jarsDir = new File(ijDir, jarsDirName)
+    if jarsDir.exists() then
+      if jarsDir.isDirectory then
+        // Locate launcher
+        jarsDir
+          .listFiles()
+          .find { f =>
+            val name = f.getName
+            name.startsWith("imagej-launcher") && name.endsWith(".jar")
+          } match
+          case Some(f) =>
+            logger.info(s"  Found launcher jar: '$f'")
+            Right(f)
+          case None =>
+            Left(s"Cannot find 'imagej-launcher*.jar' in '$jarsDir'")
+      else
+        Left(s"'$jarsDir' is not a directory'")
+    else
+      Left(s"Cannot find subdirectory '$jarsDirName' [$jarsDir]")
 
   private def locateJavaExecutable(config: Config, ijDir: File): Either[String, File] =
     logger.debug("Looking for Java executable")
@@ -92,11 +99,11 @@ class Launcher(logger: Logger) {
                 Left("Unable to determine Java home")
 
     javaHomeE.flatMap(javaHome =>
-      logger.debug(s"  Java home set as: $javaHome")
+      logger.info(s"  Java home set to: '$javaHome'")
       logger.debug(s"  Looking for java executable bin/$javaExeFileName")
       val javaExe = new File(javaHome, s"bin/$javaExeFileName")
       if javaExe.exists() then
-        logger.debug(s"  Found '$javaExeFileName' in '$javaHome/bin'")
+        logger.info(s"  Found '$javaExeFileName' in: '$javaHome/bin'")
         Right(javaExe)
       else
         Left("cannot find 'java.exe' in 'path'")
@@ -117,51 +124,44 @@ class Launcher(logger: Logger) {
     else
       None
 
-  private def findImageJLauncherJar(ijDir: File): Either[String, File] =
-    logger.debug("Looking for 'imagej-launcher*.jar'")
-    val jarsDir = new File(ijDir, jarsDirName)
-    if jarsDir.exists() then
-      if jarsDir.isDirectory then
-        // Locate launcher
-        jarsDir
-          .listFiles()
-          .find { f =>
-            val name = f.getName
-            name.startsWith("imagej-launcher") && name.endsWith(".jar")
-          } match
-          case Some(f) =>
-            logger.debug(s"Found: '$f'")
-            Right(f)
-          case None =>
-            Left(s"Cannot find 'imagej-launcher*.jar' in '$jarsDir'")
-      else
-        Left(s"'$jarsDir' is not a directory'")
-    else
-      Left(s"Cannot find subdirectory '$jarsDirName' [$jarsDir]")
-
-  private def determineSystemType(): Either[String, String] = {
+  private def determineSystemType(): Either[String, String] =
+    logger.debug("Determining system type")
     val osName = System.getProperty("os.name")
     val osArch = System.getProperty("os.arch")
-    logger.debug("os.name: " + osName)
-    logger.debug("os.arch: " + osArch)
+    logger.debug("  os.name: " + osName)
+    logger.debug("  os.arch: " + osArch)
 
     val notSupportedError = s"$osName $osArch not supported"
 
-    if osName.toLowerCase.startsWith("windows") then
-      if osArch.toLowerCase.contains("64") then
-        Right("win64")
+    val r =
+      if osName.toLowerCase.startsWith("windows") then
+        if osArch.toLowerCase.contains("64") then
+          Right("win64")
+        else
+          Left(notSupportedError)
+      else if osName.toLowerCase.contains("mac os x") then
+        Right("macosx")
       else
         Left(notSupportedError)
-    else if osName.toLowerCase.contains("mac os x") then
-      if osArch.toLowerCase.contains("aarch64") then
-        Right("aarch64")
-      else
-        Left(notSupportedError)
-    else
-      Left(notSupportedError)
-  }
 
-  private def buildCommandLine(ijDir: File, javaExe: File, launcherJar: File, systemType: String): Seq[String] = {
+    r.foreach(s => logger.info(s"  System type set to: '$s'"))
+    r
+
+  private def determineMaxMemoryMB(): Long =
+    logger.debug("Determine memory to use")
+    val sysMax = Native.mem.determineTotalSystemMemory()
+    logger.debug(s"  Available RAM: ${sysMax / 1024 / 1024}MB")
+    val ijMaxMemMB = Math.round(sysMax * 0.75 / 1024 / 1024)
+    logger.debug(s"  Using 3/4 of that: ${ijMaxMemMB}MB")
+    ijMaxMemMB
+
+  private def buildCommandLine(
+    ijDir: File,
+    javaExe: File,
+    launcherJar: File,
+    systemType: String,
+    maxMemoryMB: Long
+  ): Seq[String] =
     val ijDirPath = ijDir.getAbsolutePath
 
     Seq(
@@ -172,9 +172,11 @@ class Launcher(logger: Logger) {
       "java.base/java.util=ALL-UNNAMED",
       "--add-opens",
       "java.desktop/sun.awt=ALL-UNNAMED",
+      "--add-opens",
+      "java.desktop/com.apple.eawt=ALL-UNNAMED",
       "-Dpython.cachedir.skip=true",
       s"-Dplugins.dir=$ijDirPath",
-      "-Xmx2048m",
+      s"-Xmx${maxMemoryMB}m",
       "-Dimagej.splash=true",
       s"-Djava.class.path=${launcherJar.getAbsolutePath}",
       s"-Dimagej.dir=$ijDirPath",
@@ -192,8 +194,17 @@ class Launcher(logger: Logger) {
       "plugins",
       "net.imagej.Main"
     )
-  }
-}
+
+  private def launch(command: Seq[String]): Unit =
+    logger.debug("launchImageJ ...")
+    logger.debug(s"  Executing command:\n" + command.mkString(" "))
+
+    val builder = new ProcessBuilder(command*)
+    builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+    builder.redirectError(ProcessBuilder.Redirect.INHERIT)
+
+    builder.start()
+end Launcher
 
 object Launcher:
   lazy val javaExeFileName: String = if Utils.isWindows then "java.exe" else "java"

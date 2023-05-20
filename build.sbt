@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
 Compile / run / mainClass := Some("ij_plugins.imagej_launcher.Main")
 
 // import to add Scala Native options
-import scala.scalanative.build.*
+import scala.scalanative.build._
 
 // defaults set with common options shown
 nativeConfig ~= { c =>
