@@ -1,4 +1,14 @@
-scalaVersion := "3.2.2"
+scalaVersion         := "3.2.2"
+name                 := "IJP-ImageJ-Launcher"
+version              := "0.1.0"
+versionScheme        := Some("early-semver")
+organization         := "net.sf.ij-plugins"
+homepage             := Some(new URI("https://github.com/ij-plugins/ijp-imagej-launcher").toURL)
+startYear            := Some(2023)
+ThisBuild / licenses := Seq(("Apache-2", new URI("https://opensource.org/license/apache-2-0").toURL))
+ThisBuild / developers := List(
+  Developer(id = "jpsacha", name = "Jarek Sacha", email = "jpsacha@gmail.com", url = url("https://github.com/jpsacha"))
+)
 
 enablePlugins(ScalaNativePlugin)
 
