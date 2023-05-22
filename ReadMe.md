@@ -1,7 +1,7 @@
 IJP ImageJ Launcher
 ===================
 
-IJP ImageJ Launcher is native launcher that starts [ImageJ 2] or [Fiji].
+IJP ImageJ Launcher is a native launcher that starts [ImageJ 2] or [Fiji].
 It is intended to be a general drop-in replacement for the original [ImageJ Launcher].
 IJP ImageJ Launcher is a clean implementation on the core function of starting [ImageJ 2] or [Fiji].
 
@@ -25,16 +25,16 @@ Features [work in progress]
     - Mac OS X Arm64 (Apple Silicon)
     - Mac OS X Intel
     - Linux
-* Selects location of ImageJ directory
+* Selects location of the ImageJ directory
     - Startup directory or
     - Directory specified by `--ij-dir` command line option
 * Locates Java Virtual Machine for ImageJ:
-    - Use Java VM requested the by the use (`--java-home`)
+    - Use Java VM requested by the user (`--java-home`)
     - Use `JAVA_HOME` environment variable
     - Search ImageJ directory for available Java executables
 * Determines the amount of memory used by JVM based on total system memory use 75% of the max
 * Determines available `imagej-launcher*.jar`
-* Performs updates pending after last time ImageJ was closed
+* Performs updates pending after the last time ImageJ was closed
 
 ### Full list of command line options
 
@@ -45,7 +45,6 @@ Features [work in progress]
   --info              informational output
   --debug             verbose output
   --java-home <path>  specify JAVA_HOME explicitly
-  --print-java-home   print ImageJ's idea of JAVA_HOME
   --ij-dir <path>     set the ImageJ directory to <path> (used to find jars/, plugins/ and macros/)
 ```
 

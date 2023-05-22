@@ -58,10 +58,6 @@ object Main:
           .action((path, c) => c.copy(javaHome = Option(path)))
           .text("specify JAVA_HOME explicitly"),
         //
-        opt[Unit]("print-java-home")
-          .action((_, c) => c.copy(dryRun = true))
-          .text("print ImageJ's idea of JAVA_HOME"),
-        //
         opt[File]("ij-dir")
           .valueName("<path>")
           .action((path, c) => c.copy(ijDir = Option(path)))

@@ -17,7 +17,7 @@ class Launcher(logger: Logger):
   private val jarsDirName = "jars"
 
   def run(config: Config): Unit =
-    createCommandLine(config) match
+    prepareLaunch(config) match
       case Right(commandLine) =>
         if config.dryRun then
           logger.debug("dry-run")
@@ -27,9 +27,10 @@ class Launcher(logger: Logger):
       case Left(errorMessage) =>
         logger.error(errorMessage)
 
-  private def createCommandLine(config: Config): Either[String, Seq[String]] =
+  private def prepareLaunch(config: Config): Either[String, Seq[String]] =
     for
       ijDir       <- locateIJDir(config)
+      _           <- Updater.update(Path(ijDir), config.dryRun, logger)
       launcherJar <- findImageJLauncherJar(ijDir)
       javaExe     <- locateJavaExecutable(config, ijDir)
       systemType  <- determineSystemType()
