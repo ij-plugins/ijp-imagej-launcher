@@ -1,6 +1,6 @@
 package ij_plugins.imagej_launcher
 
-import os.Path
+import os.{Path, RelPath}
 
 import scala.util.control.NonFatal
 
@@ -17,13 +17,14 @@ object Updater:
     try
       val updateDir = ijDir / "update"
       // Count used only for debug info
-      var count     = 0
+      var count = 0
       if os.exists(updateDir) then
         logger.info("Performing update..")
         os.walk(updateDir)
           .filter(os.isFile)
           .foreach { src =>
-            val dst = ijDir / src.relativeTo(updateDir)
+//            val relativeDir = src.relativeTo(updateDir)
+            val dst = ijDir / relativeTo(src, updateDir)
             if os.size(src) == 0 then
               logger.debug(s"remove: $dst")
               if !dryRun then os.remove(dst)
@@ -44,6 +45,21 @@ object Updater:
       case NonFatal(ex) =>
         ex.printStackTrace()
         Left(s"Failed to perform update: ${ex.getMessage} - ${ex.getClass.getSimpleName}")
+
+  private def relativeTo(src: Path, base: Path): RelPath =
+    // This does what src.relativeTo(base) should do
+    // Problems is in the native code on Windows, it creates relative path by adding `../` at the beginning of the path
+    // rather than creating a relative path
+    // Implementation is very limited and assumes specific relation between src and base that should hold in our case
+
+    val srcStr  = src.toString
+    val baseStr = base.toString
+    require(baseStr.nonEmpty)
+    require(srcStr.startsWith(baseStr))
+
+    val relStr = srcStr.drop(baseStr.length + 1)
+    RelPath(relStr)
+
 
   private def deleteEmptyDirs(dir: Path, logger: Logger): Unit =
     logger.debug(s"Cleaning directory: $dir")
