@@ -1,5 +1,5 @@
 scalaVersion         := "3.2.2"
-name                 := "IJP-ImageJ-Launcher"
+//name                 := "IJP-ImageJ-Launcher"
 version              := "0.1.0"
 versionScheme        := Some("early-semver")
 organization         := "net.sf.ij-plugins"
