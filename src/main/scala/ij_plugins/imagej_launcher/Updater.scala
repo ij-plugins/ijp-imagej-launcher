@@ -48,9 +48,14 @@ object Updater:
 
   private def relativeTo(src: Path, base: Path): RelPath =
     // This does what src.relativeTo(base) should do
-    // Problems is in the native code on Windows, it creates relative path by adding `../` at the beginning of the path
-    // rather than creating a relative path
-    // Implementation is very limited and assumes specific relation between src and base that should hold in our case
+    // Problems is in the native code on Windows,
+    // os.Path#relativeTo creates relative path by adding `../` at the beginning of the absolute path,
+    // co you may get `../C:\a\b` which leads to a exception soon after.
+    // The issue is with Scala Native implementation of java.nio.file.Path#relativize on Windows,
+    // See https://github.com/scala-native/scala-native/issues/3293
+
+    // This implementation is very limited but sufficient for our use.
+    // It assumes specific relation between src and base.
 
     val srcStr  = src.toString
     val baseStr = base.toString
@@ -59,7 +64,6 @@ object Updater:
 
     val relStr = srcStr.drop(baseStr.length + 1)
     RelPath(relStr)
-
 
   private def deleteEmptyDirs(dir: Path, logger: Logger): Unit =
     logger.debug(s"Cleaning directory: $dir")
