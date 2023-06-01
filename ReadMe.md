@@ -8,17 +8,19 @@ IJP ImageJ Launcher is a clean implementation on the core function of starting [
 **Contents**
 <!-- TOC -->
 
-* [Why Another ImageJ Launcher](#why-another-imagej-launcher)
-* [Features [work in progress]](#features-work-in-progress)
-    * [Full list of command line options](#full-list-of-command-line-options)
+* [Why Another ImageJ Launcher?](#why-another-imagej-launcher)
+* [Features](#features)
+* [Full List of Command Line Options](#full-list-of-command-line-options)
 * [Installation](#installation)
+    * [Example of Installing Fiji with the IJP ImageJ Launcher on Mac OS X Arm64](#example-of-installing-fiji-with-the-ijp-imagej-launcher-on-mac-os-x-arm64)
+    * [Troubleshooting](#troubleshooting)
 * [Developer Setup](#developer-setup)
 
 <!-- TOC -->
 
 
-Why Another ImageJ Launcher
----------------------------
+Why Another ImageJ Launcher?
+----------------------------
 I needed to use Fji with the current versions of Java, version 11 and newer.
 The original [ImageJ Launcher] works with Java 8, but not that well with the current versions,
 in particular not well on Mac with Arm64 processors (Apple Silicon).
@@ -47,7 +49,8 @@ Features
 * Determines available `imagej-launcher*.jar`
 * Performs updates pending after the last time ImageJ was closed
 
-### Full list of command line options
+Full List of Command Line Options
+---------------------------------
 
 ```
   -h, --help          prints this usage text
@@ -63,79 +66,96 @@ Installation
 ------------
 The IJP ImageJ Launcher executables will be available on the [Releases] page.
 
-Example of Installing Fiji with the IJP ImageJ Launcher on Mac OS X Arm64
--------------------------------------------------------------------------
+### Example of Installing Fiji with the IJP ImageJ Launcher on Mac OS X Arm64
 
-#### 1. Download FIJI without JRE
+This example will show how to:
+
+* Download FIJI and unzip installation.
+* Download and install JVM for it.
+* Download the IJP ImageJ Launcher and use it to start Fiji
+
+**1. Download FIJI without JRE**
 
 Go to https://fiji.sc/ and select "Download the no-JRE version".
-That should het you file called `fiji-nojre.zip`
+That should get you file called `fiji-nojre.zip`
 
-#### 2. Unzip the `fiji-nojre.zip` in the directory of choice
+**2. Unzip the `fiji-nojre.zip` in a folder of choice**
 
-In Mac OS X, if you double-click on the file `fiji-nojre.zip`
-You should get `Fiji.app` click and select "show Content"
+You should get new app folder called `Fiji.app`.
+"Right-click" to show a popup menu and select "Show Package Contents" to see what is inside the `Fiji.app` folder.
+Inside you should see folders and files like "Contents", "db.xml.gz", "ImageJ-linux64", ...
 
-#### 3. Create place for Java (JRE)
+**3. Create place for Java (JRE)**
 
-Inside `Fiji.app` create directory `java`.
-Next to directories that are already there, like `Contents`, `images`, `jars`, ...
+Inside the `Fiji.app` folder create a new folder called `java`.
 
-#### 4. Download Java JRE or JDK,
+**4. Download Java JRE or JDK**
 
 In browser open https://adoptium.net/temurin/releases/
 Select:
 
 * operating system: `macOS`
-* architecture: `aarch64` also know as Apple Silicon or Arm64
-* package: `jre` (`jdk` is fine too, is larger supports Java compilation)
-* version: `11` (`17` will work too, but you will not have JavaScript available, if you use it)
+* architecture: `aarch64` also known as Apple Silicon or Arm64
+* package: `jre` (`jdk` is fine too, is larger and supports Java compilation)
+* version: `11` (`17` will work too, but you will not have JavaScript available, if you want to use it)
 
-Click on `tar.gz` button and download to the `java` directory you created earlier.
+Click on `tar.gz` button to download and save to the `java` directory you created earlier.
 You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.19_7.tar.gz`.
 
-#### 5. Uncompress into the `java` directory
+**5. Uncompress into the `java` director**
 
-That will create directory like `jdk-11.0.19+7-jre`
+That will create directory like `jdk-11.0.19+7-jre`.
+This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
 
-#### 6. Download IJP ImageJ Launcher to Fiji.app directory
+**6. Download the IJP ImageJ Launcher to the Fiji.app directory**
 
-Go to [Releases] and download `???` and `???.???`
+Go to [Releases] and download "IJP-ImageJ-Launcher-0.1.0-macosx-arm64"
+and "IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command"
 
-#### 7. Start ImageJ
+The "*.command" file is a helper that can be used to launch Fiji without using command prompt.
+Future versions of the IJP Launcher, after v.0.1.0, may eliminate the need for using this file.
 
-In Fiji.app double-click on `???.???` (note the extension ???) that should start FIJI.
+**7. Start ImageJ**
 
-You can also create an alis on the desktop to avoid navigating to Fiji.app directory each time.
-Press ??? and ??? and drag  `???.???` to the Desktop.
-It will create an alias.
-Now you can double-click on the alias `???.???` on the Desktop to start Fiji.
+In the `Fiji.app` folder double-click on `IJP-ImageL-Launcher-0.1.0-macosx-arm64.command` file (note the extension "*
+.command") that should start Fiji. YOu may need to open Settings and allow the IJP ImageJ Launcher to run.
 
-If you have problems installing, please report in [Discussions]
+You can also create an alis on the desktop to avoid navigating to the `Fiji.app` folder each time.
+Using Finder, press `Option`+`Command` and drag the *.command file to the Desktop.
+The original *.command file will stay were it is and a new icon/alias (wth a little arrow at the bottom) will be created
+on the Desktop.
+Now you can double-click on the new alias on the Desktop to start Fiji.
+YOu can rename the Desktop alias to whatever you like, for instance `Fiji`, but do not change names of the downloaded
+files, otherwise the alias (and *.command) may no longer work, and you will need to use terminal to start the launcher.
 
-Troubleshooting
----------------
+If you have problems installing, please report in [Discussions] or [Image.sc Forum]
 
-1. Open command prompt (terminal).
-2. Navigate to `Fiji.app` directory
-3. Run IJP ImageJ Launch typing: `./ijp-imagej-launcher --debug`
+### Troubleshooting
 
-You should see diagnostic information about how `ijp-imagej-launcher` is attempting to start Fiji.
-The error messages shoudl help you to address the issue.
-Please use [Discussions] if you have additional questions
+You can start the IJP Image Launcher from the terminal and see diagnostic printouts that may help troubleshoot potential
+issues.
+
+1. Open the terminal (command prompt).
+2. Navigate to `Fiji.app` directory, for instance `cd ~/Download/Fiji.app`
+3. Run IJP ImageJ Launch typing: `./IJP-ImageJ-Launcher-0.1.0-macosx-arm64 --debug`
+
+You should see diagnostic information about how the IJP ImageJ Launcher is attempting to start Fiji.
+The error messages should help you to address the issue.
+Please use [Discussions] or [Image.sc Forum] if you have additional questions.
 
 Developer Setup
 ---------------
 Information here is only applicable if you want to rebuild from sources.
 
-Setup Scala Native dependencies following instructions at:https://scala-native.org/en/v0.4.12/user/setup.html
-In brief, you will need the following installed: JDK, SBT, and LLVM/CLang.
+The IJP ImageJ Launcher is written mostly in [Scala].
+With about 10 lines of C code.
+Native binaries are created with help from [Scala Native].
+
+To rebuild the IJP ImageJ Launcher from sources,
+you need to setup Scala Native dependencies following instructions at [Scala Native].
+In brief, you will need to install the following: JDK, SBT, and LLVM/CLang.
 Details depend on OS.
 On Windows you will also need Visual Studio 2019 (the Community Editions is sufficient).
-Alternatively on Windows, you can build using WSL Linux prompt, in that case, follow Linux installation instructions.
-
-This should work with JDK 8 or newer, including the latest JDK 20.
-
 After requirements are installed, you should be able to build and run the launcher using command:
 
 ```shell
@@ -150,12 +170,20 @@ sbt "run --help"
 
 Notice the use of quotes.
 
-[//]: # (Links)
+[Discussions]: https://github.com/ij-plugins/ijp-imagej-launcher/discussions
 
 [Fiji]: https://imagej.net/software/fiji/
 
-[ImageJ 2]: https://imagej.net/software/imagej2/
+[Image.sc Forum]: https://forum.image.sc/tags/c/usage-issues/7/fiji
 
-[ImageJ Launcher]:https://imagej.net/learn/launcher
+[ImageJ 2]: https://imagej.net/software/imag
 
-[ImageJ Launcher source]:https://github.com/imagej/imagej-launcher/
+[ImageJ Launcher]: https://imagej.net/learn/launcher
+
+[ImageJ Launcher source]: https://github.com/imagej/imagej-launcher/
+
+[Releases]: https://github.com/ij-plugins/ijp-imagej-launcher/releases
+
+[Scala]: https://www.scala-lang.org/
+
+[Scala Native]: https://scala-native.org/en/stable/
