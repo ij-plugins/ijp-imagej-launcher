@@ -22,7 +22,7 @@ object Updater:
         logger.info("Performing update..")
         os.walk(updateDir)
           .filter(os.isFile)
-          .foreach { src =>
+          .foreach: src =>
 //            val relativeDir = src.relativeTo(updateDir)
             val dst = ijDir / relativeTo(src, updateDir)
             if os.size(src) == 0 then
@@ -34,7 +34,6 @@ object Updater:
               logger.debug(s"move  : $src -> $dst")
               if !dryRun then os.move(src, dst, replaceExisting = true, createFolders = true)
             count += 1
-          }
         logger.debug(s"Delete update directory: $updateDir")
         if !dryRun then deleteEmptyDirs(updateDir, logger)
         Right(count)
