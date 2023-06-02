@@ -135,13 +135,13 @@ class Launcher(logger: Logger):
     val notSupportedError = s"$osName $osArch not supported"
 
     val r =
-      if osName.toLowerCase.startsWith("windows") then
-        if osArch.toLowerCase.contains("64") then
-          Right("win64")
-        else
-          Left(notSupportedError)
-      else if osName.toLowerCase.contains("mac os x") then
-        Right("macosx")
+      if osName.toLowerCase.contains("windows") then
+        if osArch.toLowerCase.contains("64") then Right("win64")
+        else Left(notSupportedError)
+      else if osName.toLowerCase.contains("mac os x") then Right("macosx")
+      else if osName.toLowerCase.contains("linux") then
+        if osArch.toLowerCase.contains("64") then Right("linux64")
+        else Left(notSupportedError)
       else
         Left(notSupportedError)
 
