@@ -174,6 +174,8 @@ class Launcher(logger: Logger):
       "--add-opens",
       "java.desktop/sun.awt=ALL-UNNAMED",
       "--add-opens",
+      "java.desktop/sun.awt.X11=ALL-UNNAMED",
+      "--add-opens",
       "java.desktop/com.apple.eawt=ALL-UNNAMED",
       "-Dpython.cachedir.skip=true",
       s"-Dplugins.dir=$ijDirPath",
