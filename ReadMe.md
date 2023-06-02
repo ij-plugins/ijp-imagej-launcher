@@ -77,7 +77,7 @@ This example will show how to:
 **1. Download FIJI without JRE**
 
 Go to https://fiji.sc/ and select "Download the no-JRE version".
-That should get you file called `fiji-nojre.zip`
+That should get file called `fiji-nojre.zip`
 
 **2. Unzip the `fiji-nojre.zip` in a folder of choice**
 
@@ -96,21 +96,21 @@ Select:
 
 * operating system: `macOS`
 * architecture: `aarch64` also known as Apple Silicon or Arm64
-* package: `jre` (`jdk` is fine too, is larger and supports Java compilation)
-* version: `11` (`17` will work too, but you will not have JavaScript available, if you want to use it)
+* package: `JRE` (`JDK` is fine too, is larger and supports Java compilation)
+* version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
 
-Click on `tar.gz` button to download and save to the `java` directory you created earlier.
+Click on `tar.gz` button to download and save to the `java` folder you created earlier.
 You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.19_7.tar.gz`.
 
-**5. Uncompress into the `java` director**
+**5. Uncompress into the `java` folder**
 
-That will create directory like `jdk-11.0.19+7-jre`.
+That will create folder like `jdk-11.0.19+7-jre`.
 This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
 
 **6. Download the IJP ImageJ Launcher to the Fiji.app directory**
 
-Go to [Releases] and download "IJP-ImageJ-Launcher-0.1.0-macosx-arm64"
-and "IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command"
+Go to [Releases], download "IJP-ImageJ-Launcher-0.1.0-macosx-arm64"
+and "IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command", save them to the `Fiji.app` folder.
 
 The "*.command" file is a helper that can be used to launch Fiji without using command prompt.
 Future versions of the IJP Launcher, after v.0.1.0, may eliminate the need for using this file.
@@ -118,17 +118,80 @@ Future versions of the IJP Launcher, after v.0.1.0, may eliminate the need for u
 **7. Start ImageJ**
 
 In the `Fiji.app` folder double-click on `IJP-ImageL-Launcher-0.1.0-macosx-arm64.command` file (note the extension "*
-.command") that should start Fiji. YOu may need to open Settings and allow the IJP ImageJ Launcher to run.
+.command")
+That should start Fiji. 
+You may need to open Settings and allow the IJP ImageJ Launcher to run.
 
-You can also create an alis on the desktop to avoid navigating to the `Fiji.app` folder each time.
+You can also create an alis on the Desktop to avoid navigating to the `Fiji.app` folder each time.
 Using Finder, press `Option`+`Command` and drag the *.command file to the Desktop.
 The original *.command file will stay were it is and a new icon/alias (wth a little arrow at the bottom) will be created
 on the Desktop.
 Now you can double-click on the new alias on the Desktop to start Fiji.
-YOu can rename the Desktop alias to whatever you like, for instance `Fiji`, but do not change names of the downloaded
+You can rename the Desktop alias to whatever you like, for instance, `Fiji`, but do not change names of the downloaded
 files, otherwise the alias (and *.command) may no longer work, and you will need to use terminal to start the launcher.
 
 If you have problems installing, please report in [Discussions] or [Image.sc Forum]
+
+### Example of Installing Fiji with the IJP ImageJ Launcher on Windows x64
+
+This example will show how to:
+
+* Download FIJI and unzip installation.
+* Download and install JVM for it.
+* Download the IJP ImageJ Launcher and use it to start Fiji
+
+**1. Download FIJI without JRE**
+
+Go to https://fiji.sc/ and select "Download the no-JRE version".
+That should get file called `fiji-nojre.zip`
+
+**2. Unzip the `fiji-nojre.zip` in a folder of choice**
+
+You should get new app folder called `Fiji.app`.
+Inside you should see folders and files like "Contents", "db.xml.gz", "ImageJ-linux64", ...
+
+**3. Create place for Java (JRE)**
+
+Inside the `Fiji.app` folder create a new folder called `java`.
+
+**4. Download Java JRE or JDK**
+
+In browser open https://adoptium.net/temurin/releases/
+Select:
+
+* operating system: `Windows`
+* architecture: `x64` also known as Apple Silicon or Arm64
+* package: `JRE` (`JDK` is fine too, is larger and supports Java compilation)
+* version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
+
+Click on `.zip` button to download and save to the `java` folder you created earlier.
+You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.19_7.zip`.
+
+**5. Uncompress into the `java` folder**
+
+That will create folder like `jdk-11.0.19+7-jre`.
+This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
+
+**6. Download the IJP ImageJ Launcher to the Fiji.app directory**
+
+Go to [Releases], download "IJP-ImageJ-Launcher-0.1.0-windows_x64.exe", save it to the `Fiji.app` folder.
+
+**7. Start ImageJ**
+
+In the `Fiji.app` folder double-click on `IJP-ImageJ-Launcher-0.1.0-windows_x64.exe`.
+That should start Fiji. 
+
+
+You can also create a shortcut on the Desktop to avoid navigating to the `Fiji.app` folder each time.
+
+**_Left_**-click on the `IJP-ImageJ-Launcher-0.1.0-windows_x64.exe` and drag it to the Desktop.
+Once you release mouse button, a pop-up manu will open, select "Create shortcut here". 
+Now you can double-click on the new shortcut on the Desktop to start Fiji.
+
+You can rename the Desktop alias to whatever you like, for instance, `Fiji`.
+
+If you have problems installing, please report in [Discussions] or [Image.sc Forum]
+
 
 ### Troubleshooting
 
