@@ -12,7 +12,8 @@ IJP ImageJ Launcher is a clean implementation on the core function of starting [
 * [Features](#features)
 * [Full List of Command Line Options](#full-list-of-command-line-options)
 * [Installation](#installation)
-    * [Example of Installing Fiji with the IJP ImageJ Launcher on Mac OS X Arm64](#example-of-installing-fiji-with-the-ijp-imagej-launcher-on-mac-os-x-arm64)
+    * [Installing Fiji on Mac OS X Arm64](#installing-fiji-on-mac-os-x-arm64)
+    * [Installing Fiji on Windows x64](#installing-fiji-on-windows-x64)
     * [Troubleshooting](#troubleshooting)
 * [Developer Setup](#developer-setup)
 
@@ -66,7 +67,7 @@ Installation
 ------------
 The IJP ImageJ Launcher executables will be available on the [Releases] page.
 
-### Example of Installing Fiji with the IJP ImageJ Launcher on Mac OS X Arm64
+### Installing Fiji on Mac OS X Arm64
 
 This example will show how to:
 
@@ -119,7 +120,7 @@ Future versions of the IJP Launcher, after v.0.1.0, may eliminate the need for u
 
 In the `Fiji.app` folder double-click on `IJP-ImageL-Launcher-0.1.0-macosx-arm64.command` file (note the extension "*
 .command")
-That should start Fiji. 
+That should start Fiji.
 You may need to open Settings and allow the IJP ImageJ Launcher to run.
 
 You can also create an alis on the Desktop to avoid navigating to the `Fiji.app` folder each time.
@@ -132,7 +133,7 @@ files, otherwise the alias (and *.command) may no longer work, and you will need
 
 If you have problems installing, please report in [Discussions] or [Image.sc Forum]
 
-### Example of Installing Fiji with the IJP ImageJ Launcher on Windows x64
+### Installing Fiji on Windows x64
 
 This example will show how to:
 
@@ -179,19 +180,17 @@ Go to [Releases], download "IJP-ImageJ-Launcher-0.1.0-windows_x64.exe", save it 
 **7. Start ImageJ**
 
 In the `Fiji.app` folder double-click on `IJP-ImageJ-Launcher-0.1.0-windows_x64.exe`.
-That should start Fiji. 
-
+That should start Fiji.
 
 You can also create a shortcut on the Desktop to avoid navigating to the `Fiji.app` folder each time.
 
 **_Left_**-click on the `IJP-ImageJ-Launcher-0.1.0-windows_x64.exe` and drag it to the Desktop.
-Once you release mouse button, a pop-up manu will open, select "Create shortcut here". 
+Once you release mouse button, a pop-up manu will open, select "Create shortcut here".
 Now you can double-click on the new shortcut on the Desktop to start Fiji.
 
 You can rename the Desktop alias to whatever you like, for instance, `Fiji`.
 
 If you have problems installing, please report in [Discussions] or [Image.sc Forum]
-
 
 ### Troubleshooting
 
