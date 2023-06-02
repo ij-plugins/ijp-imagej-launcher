@@ -33,7 +33,10 @@ the logic flow is too complex to correct without a significant rewrite.
 Features
 --------
 
-* Uses similar options to the original ImageJ Launcher, si IJP Launcher can be drop-in replacement
+Here are the futures that are already implemented (see release notes for futures ofa specific release):
+
+* Uses similar options to the original ImageJ Launcher, so IJP Launcher can be used as a drop-in replacement
+* Intended to be used with Java 11 or newer (the original launcher can be used for Java 8)
 * Provides native executable for various OS/Hardware systems
     - Windows
     - Mac OS X Arm64 (Apple Silicon)
@@ -48,7 +51,7 @@ Features
     - Search ImageJ directory for available Java executables
 * Determines the amount of memory used by JVM based on total system memory use 75% of the max
 * Determines available `imagej-launcher*.jar`
-* Performs updates pending after the last time ImageJ was closed
+* **Performs updates** pending after the last time ImageJ was closed
 
 Full List of Command Line Options
 ---------------------------------
