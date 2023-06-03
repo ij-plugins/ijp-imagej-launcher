@@ -119,9 +119,22 @@ and "IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command", save them to the `Fiji.app
 The "*.command" file is a helper that can be used to launch Fiji without using command prompt.
 Future versions of the IJP Launcher, after v.0.1.0, may eliminate the need for using this file.
 
-**7. Start ImageJ**
+**7. Set Executable Permissions**
 
-In the `Fiji.app` folder double-click on `IJP-ImageL-Launcher-0.1.0-macosx-arm64.command` file (note the extension "*
+When you download launcher files they may be saved without executable permissions.
+
+* Open terminal
+* Navigate to the Fiji.app folder, for instance, `cd ~/Download/Fiji.app`
+* Add executable permission to the launcher and the "*.command" file using
+
+```shell
+chmod +x IJP-ImageJ-Launcher-0.1.0-macosx-arm64
+chmod +x IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command
+```
+
+**8. Start ImageJ**
+
+You can start `IJP-ImageL-Launcher-0.1.0-macosx-arm64` from command line or in the `Fiji.app` folder double-click on `IJP-ImageL-Launcher-0.1.0-macosx-arm64.command` file (note the extension "*
 .command")
 That should start Fiji.
 You may need to open Settings and allow the IJP ImageJ Launcher to run.
