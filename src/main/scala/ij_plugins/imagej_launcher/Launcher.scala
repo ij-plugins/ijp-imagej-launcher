@@ -5,6 +5,7 @@
 
 package ij_plugins.imagej_launcher
 
+import ij_plugins.imagej_launcher.IJDir.jarsDirName
 import ij_plugins.imagej_launcher.Launcher.javaExeFileName
 import ij_plugins.imagej_launcher.Main.Config
 import os.Path
@@ -13,8 +14,6 @@ import java.io.File
 import java.lang.ProcessBuilder.Redirect
 
 class Launcher(logger: Logger):
-
-  private val jarsDirName = "jars"
 
   def run(config: Config): Unit =
     prepareLaunch(config) match
@@ -29,33 +28,15 @@ class Launcher(logger: Logger):
 
   private def prepareLaunch(config: Config): Either[String, Seq[String]] =
     for
-      ijDir       <- locateIJDir(config)
-      _           <- Updater.update(Path(ijDir), config.dryRun, logger)
-      launcherJar <- findImageJLauncherJar(ijDir)
-      javaExe     <- locateJavaExecutable(config, ijDir)
+      ijDir       <- IJDir.locate(config, logger)
+      _           <- Updater.update(ijDir, config.dryRun, logger)
+      launcherJar <- findImageJLauncherJar(ijDir.toIO)
+      javaExe     <- locateJavaExecutable(config, ijDir.toIO)
       systemType  <- determineSystemType()
     yield
       val maxMemoryMB = determineMaxMemoryMB()
       logger.info(s"Max memory to use: ${maxMemoryMB}MB")
-      buildCommandLine(ijDir, javaExe, launcherJar, systemType, maxMemoryMB)
-
-  private def locateIJDir(config: Config): Either[String, File] =
-    logger.debug("Looking for ImageJ directory")
-
-    val dir = config.ijDir match
-      case Some(d) =>
-        logger.debug("  Considering provided ij-dir")
-        d
-      case None =>
-        logger.debug("  Considering current directory")
-        new File(".").getCanonicalFile
-
-    dir.listFiles().find(f => f.getName == jarsDirName && f.isDirectory) match
-      case Some(_) =>
-        logger.info(s"  ImageJ directory set to: '$dir'")
-        Right(dir)
-      case None =>
-        Left(s"Cannot locate ImageJ directory. No subdirectory '$jarsDirName' in '$dir''")
+      buildCommandLine(ijDir.toIO, javaExe, launcherJar, systemType, maxMemoryMB)
 
   private def findImageJLauncherJar(ijDir: File): Either[String, File] =
     logger.debug("Looking for 'imagej-launcher*.jar'")
@@ -119,7 +100,7 @@ class Launcher(logger: Logger):
           p.toIO.getName == javaExeFileName &&
           p.toIO.getParentFile.getName == "bin"
       )
-      logger.debug("   Candidates: " + c2.mkString(", "))
+      logger.debug("  Candidates: " + c2.mkString(", "))
       c2.map(_.toIO.getParentFile.getParentFile)
         .headOption
     else
