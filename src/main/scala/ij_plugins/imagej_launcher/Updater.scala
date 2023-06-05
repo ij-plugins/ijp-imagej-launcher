@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2000-2023 Jarek Sacha. All Rights Reserved.
+ * Author's e-mail: jpsacha at gmail.com
+ */
+
 package ij_plugins.imagej_launcher
 
 import os.{Path, RelPath}
@@ -23,8 +28,7 @@ object Updater:
         os.walk(updateDir)
           .filter(os.isFile)
           .foreach: src =>
-//            val relativeDir = src.relativeTo(updateDir)
-            val dst = ijDir / relativeTo(src, updateDir)
+            val dst = ijDir / src.relativeTo(updateDir)
             if os.size(src) == 0 then
               logger.debug(s"remove: $dst")
               if !dryRun then os.remove(dst)
@@ -44,25 +48,6 @@ object Updater:
       case NonFatal(ex) =>
         ex.printStackTrace()
         Left(s"Failed to perform update: ${ex.getMessage} - ${ex.getClass.getSimpleName}")
-
-  private def relativeTo(src: Path, base: Path): RelPath =
-    // This does what src.relativeTo(base) should do
-    // Problems is in the native code on Windows,
-    // os.Path#relativeTo creates relative path by adding `../` at the beginning of the absolute path,
-    // co you may get `../C:\a\b` which leads to a exception soon after.
-    // The issue is with Scala Native implementation of java.nio.file.Path#relativize on Windows,
-    // See https://github.com/scala-native/scala-native/issues/3293
-
-    // This implementation is very limited but sufficient for our use.
-    // It assumes specific relation between src and base.
-
-    val srcStr  = src.toString
-    val baseStr = base.toString
-    require(baseStr.nonEmpty)
-    require(srcStr.startsWith(baseStr))
-
-    val relStr = srcStr.drop(baseStr.length + 1)
-    RelPath(relStr)
 
   private def deleteEmptyDirs(dir: Path, logger: Logger): Unit =
     logger.debug(s"Cleaning directory: $dir")
