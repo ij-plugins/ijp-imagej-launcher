@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2000-2023 Jarek Sacha. All Rights Reserved.
+ * Author's e-mail: jpsacha at gmail.com
+ */
+
 package ij_plugins.imagej_launcher
 
 import ij_plugins.imagej_launcher.Main.Config
@@ -16,9 +21,9 @@ object IJDir:
 
     config.ijDir match
       case Some(d) =>
-        logger.debug(s"  Considering provided ij-dir: '$d''")
+        logger.debug(s"  Considering provided ij-dir: '$d'")
         asPath(d.getPath).flatMap: p =>
-          logger.debug(s"    '$p''")
+          logger.debug(s"    '$p'")
           if isIJDir(p) then Right(p)
           else Left(s"ij-dir is not an ImageJ directory [$p]")
       case None =>
@@ -53,6 +58,6 @@ object IJDir:
     else
       FilePath(filePath) match
         case p: Path => Right(p)
-        case _       => Left(s"Not an absolute path: '$filePath''")
+        case _       => Left(s"Not an absolute path: '$filePath'")
 
 end IJDir
