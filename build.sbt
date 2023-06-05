@@ -1,4 +1,4 @@
-scalaVersion         := "3.3.0"
+scalaVersion := "3.3.0"
 //name                 := "IJP-ImageJ-Launcher"
 version              := "0.1.1-SNAPSHOT"
 versionScheme        := Some("early-semver")
@@ -16,14 +16,15 @@ enablePlugins(ScalaNativePlugin)
 logLevel := Level.Info
 
 libraryDependencies ++= Seq(
-  "com.github.scopt" %%% "scopt"  % "4.1.0",
-  "com.lihaoyi"      %%% "os-lib" % "0.9.1"
+  "com.github.scopt" %%% "scopt"     % "4.1.0",
+  "com.lihaoyi"      %%% "os-lib"    % "0.9.1",
+  "org.scalatest"    %%% "scalatest" % "3.2.16" % Test
 )
 
 Compile / run / mainClass := Some("ij_plugins.imagej_launcher.Main")
 
 // import to add Scala Native options
-import scala.scalanative.build._
+import scala.scalanative.build.*
 
 // defaults set with common options shown
 nativeConfig ~= { c =>
