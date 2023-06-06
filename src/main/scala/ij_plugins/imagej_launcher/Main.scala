@@ -69,7 +69,7 @@ object Main:
 
   private def setupLogger(logLevel: Logger.Level): Unit = logger = new Logger(logLevel)
 
-  private def runLauncher(config: Config): Unit = new Launcher(logger).run(config)
+  private def runLauncher(config: Config): Unit = new Launcher(using logger).run(config)
 
   case class Config(
     logLevel: Logger.Level = Logger.Level.Error,

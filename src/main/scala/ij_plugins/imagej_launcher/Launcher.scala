@@ -13,7 +13,7 @@ import os.Path
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 
-class Launcher(logger: Logger):
+class Launcher(using logger: Logger):
 
   def run(config: Config): Unit =
     prepareLaunch(config) match
@@ -30,6 +30,7 @@ class Launcher(logger: Logger):
     for
       ijDir       <- IJDir.locate(config, logger)
       _           <- Updater.update(ijDir, config.dryRun, logger)
+      ijConfig    <- IJConfigFile.readFromDir(ijDir)
       launcherJar <- findImageJLauncherJar(ijDir.toIO)
       javaExe     <- locateJavaExecutable(config, ijDir.toIO)
       systemType  <- determineSystemType()
@@ -178,6 +179,7 @@ class Launcher(logger: Logger):
       "plugins",
       "net.imagej.Main"
     )
+  end buildCommandLine
 
   private def launch(command: Seq[String]): Unit =
     logger.debug("launchImageJ ...")
