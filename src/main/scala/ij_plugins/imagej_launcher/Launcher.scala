@@ -28,8 +28,8 @@ class Launcher(using logger: Logger):
 
   private def prepareLaunch(config: Config): Either[String, Seq[String]] =
     for
-      ijDir       <- IJDir.locate(config, logger)
-      _           <- Updater.update(ijDir, config.dryRun, logger)
+      ijDir       <- IJDir.locate(config)
+      _           <- Updater.update(ijDir, config.dryRun)
       ijConfig    <- IJConfigFile.readFromDir(ijDir)
       launcherJar <- findImageJLauncherJar(ijDir.toIO)
       javaExe     <- locateJavaExecutable(config, ijDir.toIO)

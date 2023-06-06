@@ -16,7 +16,7 @@ object IJDir:
   val jarsDirName = "jars"
 
   /** Locate ImageJ directory */
-  def locate(config: Config, logger: Logger): Either[String, Path] =
+  def locate(config: Config)(using logger: Logger): Either[String, Path] =
     logger.debug("Looking for ImageJ directory")
 
     config.ijDir match

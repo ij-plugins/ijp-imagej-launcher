@@ -18,7 +18,7 @@ object Updater:
    * @param logger configured logger
    * @return Number of files processed or an error message.
    */
-  def update(ijDir: Path, dryRun: Boolean, logger: Logger): Either[String, Long] =
+  def update(ijDir: Path, dryRun: Boolean)(using logger: Logger): Either[String, Long] =
     try
       val updateDir = ijDir / "update"
       // Count used only for debug info
@@ -39,7 +39,7 @@ object Updater:
               if !dryRun then os.move(src, dst, replaceExisting = true, createFolders = true)
             count += 1
         logger.debug(s"Delete update directory: $updateDir")
-        if !dryRun then deleteEmptyDirs(updateDir, logger)
+        if !dryRun then deleteEmptyDirs(updateDir)
         Right(count)
       else
         logger.info("No update found")
@@ -49,11 +49,11 @@ object Updater:
         ex.printStackTrace()
         Left(s"Failed to perform update: ${ex.getMessage} - ${ex.getClass.getSimpleName}")
 
-  private def deleteEmptyDirs(dir: Path, logger: Logger): Unit =
+  private def deleteEmptyDirs(dir: Path)(using logger: Logger): Unit =
     logger.debug(s"Cleaning directory: $dir")
     os.list(dir)
       .filter(os.isDir)
-      .foreach(p => deleteEmptyDirs(p, logger))
+      .foreach(p => deleteEmptyDirs(p))
 
     if os.list(dir).isEmpty then
       logger.debug(s"Removing empty dir: $dir")
