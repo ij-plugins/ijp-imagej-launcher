@@ -21,6 +21,17 @@ libraryDependencies ++= Seq(
   "org.scalatest"    %%% "scalatest" % "3.2.16" % Test
 )
 
+scalacOptions ++= Seq(
+  "-unchecked",
+  "-deprecation",
+  "-explain",
+  "-explain-types",
+  "-rewrite",
+  "-source:3.3-migration",
+  "-Wvalue-discard",
+  "-Wunused:all"
+)
+
 Compile / run / mainClass := Some("ij_plugins.imagej_launcher.Main")
 
 // import to add Scala Native options
