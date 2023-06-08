@@ -6,7 +6,7 @@
 package ij_plugins.imagej_launcher
 
 import ij_plugins.imagej_launcher.Main.Config
-import os.{FilePath, Path, RelPath, SubPath}
+import os.{FilePath, Path}
 
 import scala.util.control.NonFatal
 

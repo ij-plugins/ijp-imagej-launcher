@@ -5,7 +5,7 @@
 
 package ij_plugins.imagej_launcher
 
-import scopt.{DefaultOEffectSetup, OParser}
+import scopt.OParser
 
 import java.io.File
 
