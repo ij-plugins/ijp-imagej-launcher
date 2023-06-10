@@ -29,6 +29,7 @@ object Main:
       case None =>
 
   private def parseCommandLine(args: Array[String]): Option[Config] =
+    logger.debug("Command line: " + args.map("'" + _ + "'").mkString(", "))
     val builder = OParser.builder[Config]
     val parser1 =
       import builder.*
