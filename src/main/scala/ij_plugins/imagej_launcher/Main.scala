@@ -10,10 +10,9 @@ import scopt.OParser
 import java.io.File
 
 object Main:
-  private var logger  = new Logger()
-  private val AppName = "ijp-imagej-launcher"
-  //  private val AppVersion = s"${Version.version} [${Version.buildTimeStr}]"
-  private val AppVersion     = s"0.1.0"
+  private var logger         = new Logger()
+  private val AppName        = "IJP-ImageJ-Launcher"
+  private val AppVersion     = BuildInfo.version
   private val VersionMessage = s"v.$AppVersion"
   private val AppDescription =
     """Native launcher for ImageJ2

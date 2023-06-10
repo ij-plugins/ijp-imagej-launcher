@@ -48,3 +48,8 @@ nativeConfig ~= { c =>
 //nativeConfig ~= { c =>
 //  c.withCompileOptions(c.compileOptions ++ Seq("-v"))
 //}
+
+// Version info generation from SBT configuration
+enablePlugins(BuildInfoPlugin)
+buildInfoKeys    := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion)
+buildInfoPackage := "ij_plugins.imagej_launcher"
