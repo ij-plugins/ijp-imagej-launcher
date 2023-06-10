@@ -30,18 +30,28 @@ object IJDir:
         logger.debug("  Considering application directory")
         val appPath = Native.applicationPath()
         logger.debug(s"  Application directory: '$appPath'")
-        if isIJDir(appPath) then
-          Right(appPath)
-        else
-          logger.debug("  Application directory is not an ImageJ directory")
-          logger.debug("  Considering current working directory")
-          val cwd = os.pwd
-          logger.debug(s"  Current working directory: '$cwd'")
-          if isIJDir(cwd) then
-            Right(cwd)
-          else
-            logger.debug("  Current working directory is not an ImageJ directory.")
-            Left("Cannot locate ImageJ directory.")
+        inferIJDir(appPath) match
+          case Some(p) =>
+            Right(p)
+          case None =>
+            logger.debug("  Application directory is not an ImageJ directory")
+            logger.debug("  Considering current working directory")
+            val cwd = os.pwd
+            logger.debug(s"  Current working directory: '$cwd'")
+            inferIJDir(cwd) match
+              case Some(p) =>
+                Right(p)
+              case None =>
+                logger.debug("  Current working directory is not an ImageJ directory.")
+                Left("Cannot locate ImageJ directory.")
+
+  private def inferIJDir(path: Path): Option[Path] =
+    if isIJDir(path) then
+      Option(path)
+    else if path.endsWith(os.rel / "Contents" / "MacOS") then
+      Option(path / os.up / os.up)
+    else
+      None
 
   private def isIJDir(path: Path): Boolean =
     os.exists(path) &&
