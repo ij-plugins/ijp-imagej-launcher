@@ -193,6 +193,13 @@ If you have problems installing, please report in [Discussions] or [Image.sc For
 
 ### Troubleshooting
 
+#### Start-up log `~/.ijp_imagej_launcher.log`
+
+The IJP-ImageJ-Launcher writes diagnostic info to a file `.ijp_imagej_launcher.log` in the users home directory.
+The information recorded is some as using `--debug` on command line.
+
+#### Starting from command prompt
+
 You can start the IJP Image Launcher from the terminal and see diagnostic printouts that may help troubleshoot potential
 issues.
 
