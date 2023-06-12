@@ -15,6 +15,8 @@ IJP ImageJ Launcher is a clean implementation on the core function of starting [
     * [Installing Fiji on Mac OS X Arm64](#installing-fiji-on-mac-os-x-arm64)
     * [Installing Fiji on Windows x64](#installing-fiji-on-windows-x64)
     * [Troubleshooting](#troubleshooting)
+        * [Start-up log `~/.ijp_imagej_launcher.log`](#start-up-log-ijpimagejlauncherlog)
+        * [Starting from command prompt](#starting-from-command-prompt)
 * [Developer Setup](#developer-setup)
 
 <!-- TOC -->
@@ -111,41 +113,22 @@ You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.19_7.tar.gz`.
 That will create folder like `jdk-11.0.19+7-jre`.
 This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
 
-**6. Download the IJP ImageJ Launcher to the Fiji.app directory**
+**6. Download the IJP ImageJ Launcher and uncompress**
 
-Go to [Releases], download "IJP-ImageJ-Launcher-0.1.0-macosx-arm64"
-and "IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command", save them to the `Fiji.app` folder.
+Go to [Releases], download "IJP-ImageJ-Launcher-0.2.0-macosx-arm64.zip"
 
-The "*.command" file is a helper that can be used to launch Fiji without using command prompt.
-Future versions of the IJP Launcher, after v.0.1.0, may eliminate the need for using this file.
+Uncompress "IJP-ImageJ-Launcher-0.2.0-macosx-arm64.zip".
+Inside you will get `ImageJ-macosx`.
 
-**7. Set Executable Permissions**
+**7. Add to Fiji.app**
 
-When you download launcher files they may be saved without executable permissions.
+Inside `Fiji.app` locate folder `Contents/MacOS`.
 
-* Open terminal
-* Navigate to the Fiji.app folder, for instance, `cd ~/Download/Fiji.app`
-* Add executable permission to the launcher and the "*.command" file using
+Copy `ImageJ-macosx` to the `Contents/MacOS` folder, replacing `ImageJ-macosx` that was there.
 
-```shell
-chmod +x IJP-ImageJ-Launcher-0.1.0-macosx-arm64
-chmod +x IJP-ImageJ-Launcher-0.1.0-macosx-arm64.command
-```
+**8. Move Fiji.app to the Application folder**
 
-**8. Start ImageJ**
-
-You can start `IJP-ImageL-Launcher-0.1.0-macosx-arm64` from command line or in the `Fiji.app` folder double-click on `IJP-ImageL-Launcher-0.1.0-macosx-arm64.command` file (note the extension "*
-.command")
-That should start Fiji.
-You may need to open Settings and allow the IJP ImageJ Launcher to run.
-
-You can also create an alis on the Desktop to avoid navigating to the `Fiji.app` folder each time.
-Using Finder, press `Option`+`Command` and drag the *.command file to the Desktop.
-The original *.command file will stay were it is and a new icon/alias (wth a little arrow at the bottom) will be created
-on the Desktop.
-Now you can double-click on the new alias on the Desktop to start Fiji.
-You can rename the Desktop alias to whatever you like, for instance, `Fiji`, but do not change names of the downloaded
-files, otherwise the alias (and *.command) may no longer work, and you will need to use terminal to start the launcher.
+At this point you can move the `Fiji.app` folder to the Applications folder and use is as a regular msOS application.
 
 If you have problems installing, please report in [Discussions] or [Image.sc Forum]
 
