@@ -5,15 +5,14 @@
 
 package ij_plugins.imagej_launcher
 
-import scopt.{DefaultOEffectSetup, OParser}
+import scopt.OParser
 
 import java.io.File
 
 object Main:
-  private var logger  = new Logger()
-  private val AppName = "ijp-imagej-launcher"
-  //  private val AppVersion = s"${Version.version} [${Version.buildTimeStr}]"
-  private val AppVersion     = s"0.1.0"
+  private var logger         = new Logger()
+  private val AppName        = "IJP-ImageJ-Launcher"
+  private val AppVersion     = BuildInfo.version
   private val VersionMessage = s"v.$AppVersion"
   private val AppDescription =
     """Native launcher for ImageJ2
@@ -29,6 +28,7 @@ object Main:
       case None =>
 
   private def parseCommandLine(args: Array[String]): Option[Config] =
+    logger.debug("Command line: " + args.map("'" + _ + "'").mkString(", "))
     val builder = OParser.builder[Config]
     val parser1 =
       import builder.*
@@ -69,7 +69,7 @@ object Main:
 
   private def setupLogger(logLevel: Logger.Level): Unit = logger = new Logger(logLevel)
 
-  private def runLauncher(config: Config): Unit = new Launcher(logger).run(config)
+  private def runLauncher(config: Config): Unit = new Launcher(using logger).run(config)
 
   case class Config(
     logLevel: Logger.Level = Logger.Level.Error,
