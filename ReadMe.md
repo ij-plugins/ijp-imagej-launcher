@@ -82,7 +82,7 @@ This example will show how to:
 
 **1. Download FIJI without JRE**
 
-Go to https://fiji.sc/ and select "Download the no-JRE version".
+Go to https://fiji.sc/ and download the **"No JRE"** version (not specific to any OS).
 That should get file called `fiji-nojre.zip`
 
 **2. Unzip the `fiji-nojre.zip` in a folder of choice**
@@ -106,11 +106,11 @@ Select:
 * version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
 
 Click on `tar.gz` button to download and save to the `java` folder you created earlier.
-You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.19_7.tar.gz`.
+You should have file like `OpenJDK11U-jre_aarch64_mac_hotspot_11.0.20_8.tar.gz`.
 
 **5. Uncompress into the `java` folder**
 
-That will create folder like `jdk-11.0.19+7-jre`.
+That will create folder like `jdk-11.0.20+8-jre`.
 This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
 
 **6. Download the IJP ImageJ Launcher and uncompress**
