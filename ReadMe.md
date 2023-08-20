@@ -82,7 +82,7 @@ This example will show how to:
 
 **1. Download FIJI without JRE**
 
-Go to https://fiji.sc/ and download the **"No JRE"** version (not specific to any OS).
+Go to https://imagej.net/software/fiji/downloads and download the **"No JRE"** version (not specific to any OS).
 That should get file called `fiji-nojre.zip`
 
 **2. Unzip the `fiji-nojre.zip` in a folder of choice**
@@ -100,15 +100,15 @@ Inside the `Fiji.app` folder create a new folder called `java`.
 In browser open https://adoptium.net/temurin/releases/
 Select:
 
-* operating system: `macOS`
-* architecture: `aarch64` also known as Apple Silicon or Arm64
-* package: `JRE` (`JDK` is fine too, is larger and supports Java compilation)
-* version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
+* Operating System: `macOS`
+* Architecture: `aarch64` also known as Apple Silicon or Arm64
+* Package Type: `JRE` (`JDK` is fine too, is larger and supports Java compilation)
+* Version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
 
 Click on `tar.gz` button to download and save to the `java` folder you created earlier.
 You should have file like `OpenJDK11U-jre_aarch64_mac_hotspot_11.0.20_8.tar.gz`.
 
-**5. Uncompress into the `java` folder**
+**5. Uncompress into the `Fiji.app/java` folder**
 
 That will create folder like `jdk-11.0.20+8-jre`.
 This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
@@ -142,7 +142,7 @@ This example will show how to:
 
 **1. Download FIJI without JRE**
 
-Go to https://fiji.sc/ and select "Download the no-JRE version".
+Go to https://imagej.net/software/fiji/downloads and download the **"No JRE"** version (not specific to any OS).
 That should get file called `fiji-nojre.zip`
 
 **2. Unzip the `fiji-nojre.zip` in a folder of choice**
@@ -159,31 +159,31 @@ Inside the `Fiji.app` folder create a new folder called `java`.
 In browser open https://adoptium.net/temurin/releases/
 Select:
 
-* operating system: `Windows`
-* architecture: `x64` also known as Apple Silicon or Arm64
-* package: `JRE` (`JDK` is fine too, is larger and supports Java compilation)
-* version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
+* Operating System: `Windows`
+* Architecture: `x64` also known as Apple Silicon or Arm64
+* Package Type: `JRE` (`JDK` is fine too, is larger and supports Java compilation)
+* Version: `11-LTS` (`17-LTS` will work too, but you will not have JavaScript available, if you want to use it)
 
 Click on `.zip` button to download and save to the `java` folder you created earlier.
-You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.19_7.zip`.
+You should have file like `OpenJDK11U-jre_x64_windows_hotspot_11.0.20_8.zip`.
 
-**5. Uncompress into the `java` folder**
+**5. Uncompress into the `Fiji.app/java` folder**
 
-That will create folder like `jdk-11.0.19+7-jre`.
+That will create folder like `jdk-11.0.20+8-jre`.
 This is the Java VM that IJP ImageJ Launcher will use to start Fiji.
 
 **6. Download the IJP ImageJ Launcher to the Fiji.app directory**
 
-Go to [Releases], download "IJP-ImageJ-Launcher-0.1.0-windows_x64.exe", save it to the `Fiji.app` folder.
+Go to [Releases], download "IJP-ImageJ-Launcher-0.2.0-windows_x64.exe", save it to the `Fiji.app` folder.
 
 **7. Start ImageJ**
 
-In the `Fiji.app` folder double-click on `IJP-ImageJ-Launcher-0.1.0-windows_x64.exe`.
+In the `Fiji.app` folder double-click on `IJP-ImageJ-Launcher-0.2.0-windows_x64.exe`.
 That should start Fiji.
 
 You can also create a shortcut on the Desktop to avoid navigating to the `Fiji.app` folder each time.
 
-**_Left_**-click on the `IJP-ImageJ-Launcher-0.1.0-windows_x64.exe` and drag it to the Desktop.
+**_Left_**-click on the `IJP-ImageJ-Launcher-0.2.0-windows_x64.exe` and drag it to the Desktop.
 Once you release mouse button, a pop-up manu will open, select "Create shortcut here".
 Now you can double-click on the new shortcut on the Desktop to start Fiji.
 
