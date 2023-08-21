@@ -1,6 +1,6 @@
 scalaVersion := "3.3.0"
 //name                 := "IJP-ImageJ-Launcher"
-version              := "0.2.0"
+version              := "0.2.0.1-SNAPSHOT"
 versionScheme        := Some("early-semver")
 organization         := "net.sf.ij-plugins"
 homepage             := Some(new URI("https://github.com/ij-plugins/ijp-imagej-launcher").toURL)
