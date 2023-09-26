@@ -130,6 +130,20 @@ Copy `ImageJ-macosx` to the `Contents/MacOS` folder, replacing `ImageJ-macosx` t
 
 At this point you can move the `Fiji.app` folder to the Applications folder and use is as a regular msOS application.
 
+**9. Troubleshooting**
+
+When you attempt to run Fiji with the new Launcher you may get a warning dialog
+![macOS_warning_dialog_01.png](assets%2FmacOS_warning_dialog_01.png)
+
+Possible work-around
+
+1. Delete `Fuji.app` folder
+2. Uncompressed `fiji-nojre.zip` to recreate `Fuji.app` folder, but do not make any changes to it yet. You may need to do it is different folder than before.
+3. Control-clock on `Fuji.app` and select "Open". You will see dialog saying 
+    "macOS cannot verify the developer of “Fiji”. Are you sure you want to open it?"
+4. Click on "Open". You will see Fiji logo, but the application will close since it is not setup yet
+5. Now you can repeat steps "3. Create place for Java (JRE)" to "7. Add to Fiji.app" above
+
 If you have problems installing, please report in [Discussions] or [Image.sc Forum]
 
 ### Installing Fiji on Windows x64
