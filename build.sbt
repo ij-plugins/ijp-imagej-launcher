@@ -1,4 +1,4 @@
-scalaVersion := "3.3.0"
+scalaVersion := "3.3.1"
 //name                 := "IJP-ImageJ-Launcher"
 version              := "0.2.0.1-SNAPSHOT"
 versionScheme        := Some("early-semver")
@@ -18,7 +18,7 @@ logLevel := Level.Info
 libraryDependencies ++= Seq(
   "com.github.scopt" %%% "scopt"     % "4.1.0",
   "com.lihaoyi"      %%% "os-lib"    % "0.9.1",
-  "org.scalatest"    %%% "scalatest" % "3.2.16" % Test
+  "org.scalatest"    %%% "scalatest" % "3.2.17" % Test
 )
 
 scalacOptions ++= Seq(
