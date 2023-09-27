@@ -1,4 +1,4 @@
-scalaVersion := "3.3.0"
+scalaVersion := "3.3.1"
 //name                 := "IJP-ImageJ-Launcher"
 version              := "0.2.0.1-SNAPSHOT"
 versionScheme        := Some("early-semver")
