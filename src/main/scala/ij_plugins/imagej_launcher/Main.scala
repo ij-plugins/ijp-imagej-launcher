@@ -1,11 +1,9 @@
 /*
- * Copyright (c) 2000-2023 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2000-2025 Jarek Sacha. All Rights Reserved.
  * Author's e-mail: jpsacha at gmail.com
  */
 
 package ij_plugins.imagej_launcher
-
-import scopt.OParser
 
 import java.io.File
 
@@ -14,9 +12,7 @@ object Main:
   private val AppName        = "IJP-ImageJ-Launcher"
   private val AppVersion     = BuildInfo.version
   private val VersionMessage = s"v.$AppVersion"
-  private val AppDescription =
-    """Native launcher for ImageJ2
-      |""".stripMargin
+  private val AppDescription = "Native launcher for ImageJ2."
 
   def main(args: Array[String]): Unit =
     setupLogger(Logger.Level.All)
@@ -29,42 +25,37 @@ object Main:
 
   private def parseCommandLine(args: Array[String]): Option[Config] =
     logger.debug("Command line: " + args.map("'" + _ + "'").mkString(", "))
-    val builder = OParser.builder[Config]
-    val parser1 =
-      import builder.*
-      OParser.sequence(
-        programName(AppName),
-        head(AppName, VersionMessage),
-        note(AppDescription),
-        //
-        help('h', "help").text("prints this usage text"),
-        //
-        version("version").text("prints version"),
-        //
-        opt[Unit]("dry-run")
-          .action((_, c) => c.copy(dryRun = true))
-          .text("show the command line, but do not run anything"),
-        //
-        opt[Unit]("info")
-          .action((_, c) => c.copy(logLevel = Logger.Level.Info))
-          .text("informational output"),
-        //
-        opt[Unit]("debug")
-          .action((_, c) => c.copy(logLevel = Logger.Level.Debug))
-          .text("verbose output"),
-        //
-        opt[File]("java-home")
-          .valueName("<path>")
-          .action((path, c) => c.copy(javaHome = Option(path)))
-          .text("specify JAVA_HOME explicitly"),
-        //
-        opt[File]("ij-dir")
-          .valueName("<path>")
-          .action((path, c) => c.copy(ijDir = Option(path)))
-          .text("set the ImageJ directory to <path> (used to find jars/, plugins/ and macros/)")
-      )
 
-    OParser.parse(parser1, args, Config())
+    val appName = s"$AppName $VersionMessage"
+    mainargs.ParserForClass[CLConfig].constructEither(
+      args.toSeq,
+      customName = appName,
+      customDoc =
+        s"""
+           |$AppDescription
+           | 
+           |Usage: $AppName [options]
+           | 
+           |""".stripMargin,
+      docsOnNewLine = true,
+      sorted = false
+    ) match
+      case Right(cl) =>
+        if cl.version.value then
+          println(s"$AppName $VersionMessage")
+          None
+        else
+          var c = Config()
+          if cl.dryRun.value then c = c.copy(dryRun = true)
+          if cl.info.value then c = c.copy(logLevel = Logger.Level.Info)
+          if cl.debug.value then c = c.copy(logLevel = Logger.Level.Debug)
+          cl.javaHome.foreach(s => c = c.copy(javaHome = Option(new File(s))))
+          cl.ijDir.foreach(s => c = c.copy(ijDir = Option(new File(s))))
+          Option(c)
+      case Left(error) =>
+        println(error)
+        System.exit(-1)
+        None
   end parseCommandLine
 
   private def setupLogger(logLevel: Logger.Level): Unit = logger = new Logger(logLevel)
@@ -76,5 +67,23 @@ object Main:
     dryRun: Boolean = false,
     javaHome: Option[File] = None,
     ijDir: Option[File] = None
+  )
+
+  @mainargs.main(name = "<NAME>", doc = "<DOC>")
+  private case class CLConfig(
+    @mainargs.arg(doc = "prints this usage text")
+    help: mainargs.Flag = mainargs.Flag(false),
+    @mainargs.arg(doc = "prints version")
+    version: mainargs.Flag = mainargs.Flag(false),
+    @mainargs.arg(doc = "show the command line, but do not run anything")
+    dryRun: mainargs.Flag = mainargs.Flag(false),
+    @mainargs.arg(doc = "informational output")
+    info: mainargs.Flag = mainargs.Flag(false),
+    @mainargs.arg(doc = "verbose output")
+    debug: mainargs.Flag = mainargs.Flag(false),
+    @mainargs.arg(doc = "specify JAVA_HOME explicitly")
+    javaHome: Option[String] = None,
+    @mainargs.arg(doc = "set the ImageJ directory to <path> (used to find jars/, plugins/ and macros/)")
+    ijDir: Option[String] = None
   )
 end Main

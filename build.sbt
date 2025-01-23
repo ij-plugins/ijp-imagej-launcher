@@ -1,4 +1,4 @@
-scalaVersion := "3.3.3"
+scalaVersion := "3.3.4"
 //name                 := "IJP-ImageJ-Launcher"
 version              := "0.2.0.1-SNAPSHOT"
 versionScheme        := Some("early-semver")
@@ -16,7 +16,7 @@ enablePlugins(ScalaNativePlugin)
 logLevel := Level.Info
 
 libraryDependencies ++= Seq(
-  "com.github.scopt" %%% "scopt"     % "4.1.0",
+  "com.lihaoyi"      %%% "mainargs"  % "0.6.3",
   "com.lihaoyi"      %%% "os-lib"    % "0.9.3",
   "org.scalatest"    %%% "scalatest" % "3.2.18" % Test
 )
