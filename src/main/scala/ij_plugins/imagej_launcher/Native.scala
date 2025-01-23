@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2000-2025 Jarek Sacha. All Rights Reserved.
+ * Author's e-mail: jpsacha at gmail.com
+ */
 package ij_plugins.imagej_launcher
 
 import os.{Path, up}
@@ -10,8 +14,8 @@ object Native:
   def applicationPath(): Path =
     val maxPath: CSize = argv0.path_max()
     // use Zone to manage native memory
-    val exePath =
-      Zone { implicit z =>
+    val exePath: String =
+      Zone {
         val buffer: CString = alloc[CChar](maxPath)
         argv0.get_exe_path(buffer, maxPath)
         unsafe.fromCString(buffer)

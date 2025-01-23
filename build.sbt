@@ -1,4 +1,4 @@
-scalaVersion := "3.3.4"
+scalaVersion := "3.6.3"
 //name                 := "IJP-ImageJ-Launcher"
 version              := "0.2.0.1-SNAPSHOT"
 versionScheme        := Some("early-semver")
@@ -16,9 +16,9 @@ enablePlugins(ScalaNativePlugin)
 logLevel := Level.Info
 
 libraryDependencies ++= Seq(
-  "com.lihaoyi"      %%% "mainargs"  % "0.6.3",
-  "com.lihaoyi"      %%% "os-lib"    % "0.9.3",
-  "org.scalatest"    %%% "scalatest" % "3.2.18" % Test
+  "com.lihaoyi"      %%% "mainargs"  % "0.7.6",
+  "com.lihaoyi"      %%% "os-lib"    % "0.11.3",
+  "org.scalatest"    %%% "scalatest" % "3.2.19" % Test
 )
 
 scalacOptions ++= Seq(
@@ -27,7 +27,7 @@ scalacOptions ++= Seq(
   "-explain",
   "-explain-types",
   "-rewrite",
-  "-source:3.3-migration",
+  "-source:3.6-migration",
 //  "-Wvalue-discard",
   "-Wunused:all"
 )
